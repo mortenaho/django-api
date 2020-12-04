@@ -40,7 +40,17 @@ def post_edit(request):
         post.id = request.POST.get("id")
         post.title = request.POST.get("title")
         post.description = request.POST.get("description")
-        Post.objects.filter(id=post.id).update(title=post.title,description=post.description)
+        Post.objects.filter(id=post.id).update(title=post.title, description=post.description)
+        return HttpResponse("200")
+    except NameError:
+        return HttpResponse("500")
+
+
+@csrf_exempt
+def post_delete(request):
+    try:
+        id = request.POST.get("id")
+        Post.objects.filter(id=id).delete()
         return HttpResponse("200")
     except NameError:
         return HttpResponse("500")
