@@ -17,3 +17,17 @@ def posts(request):
     post_json = json.loads(posts_serializers)
     data = json.dumps(post_json)
     return HttpResponse(data)
+
+
+@csrf_exempt
+def post_insert(request):
+    try:
+        post = Post()
+        post.title = request.POST.get("title")
+        post.description = request.POST.get("description")
+        post.author =Author.objects.get(pk=request.POST.get("author"))
+        post.thumb = request.POST.get("thumb")
+        post.save()
+        return HttpResponse("200")
+    except NameError:
+        return HttpResponse("500")
