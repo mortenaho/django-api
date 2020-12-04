@@ -25,9 +25,22 @@ def post_insert(request):
         post = Post()
         post.title = request.POST.get("title")
         post.description = request.POST.get("description")
-        post.author =Author.objects.get(pk=request.POST.get("author"))
+        post.author = Author.objects.get(pk=request.POST.get("author"))
         post.thumb = request.POST.get("thumb")
         post.save()
+        return HttpResponse("200")
+    except NameError:
+        return HttpResponse("500")
+
+
+@csrf_exempt
+def post_edit(request):
+    try:
+        post = Post()
+        post.id = request.POST.get("id")
+        post.title = request.POST.get("title")
+        post.description = request.POST.get("description")
+        Post.objects.filter(id=post.id).update(title=post.title,description=post.description)
         return HttpResponse("200")
     except NameError:
         return HttpResponse("500")
